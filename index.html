@@ -12,11 +12,35 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1b3a, #3a1c71, #d76d77, #ffaf7b);
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Nền sao lấp lánh */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
         }
 
         .container {
@@ -32,65 +56,119 @@
             padding: 40px 0;
         }
 
-        .moon {
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(45deg, #FFD700, #FFF8DC);
-            border-radius: 50%;
-            margin: 0 auto;
-            box-shadow: 0 0 50px #FFD700;
-            animation: float 3s ease-in-out infinite;
+        .moon-container {
             position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+        }
+
+        .moon {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #FFF9C4, #FFD54F, #FFB300);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.7);
+            animation: float 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
         }
 
         .moon::before {
             content: '';
             position: absolute;
-            top: 30px;
-            left: 25px;
-            width: 30px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-        }
-
-        .moon::after {
-            content: '';
-            position: absolute;
-            bottom: 40px;
-            right: 35px;
-            width: 20px;
-            height: 20px;
+            top: 20%;
+            left: 15%;
+            width: 40px;
+            height: 40px;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
+            box-shadow: 
+                60px 30px 0 -10px rgba(255, 255, 255, 0.1),
+                30px 70px 0 5px rgba(255, 255, 255, 0.12),
+                70px 70px 0 -5px rgba(255, 255, 255, 0.08);
+        }
+
+        .moon-glow {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            animation: pulse 3s infinite alternate;
+            z-index: -1;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            100% { transform: scale(1.05); opacity: 1; }
         }
 
         h1 {
             font-size: 2.5em;
             margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            background: linear-gradient(to right, #FFD700, #FFECB3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #FFECB3;
         }
 
         /* Phần lời chúc */
         .wish-section {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
             padding: 30px;
             margin: 30px 0;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wish-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #FF6B6B, #4ECDC4, #45B7D1);
         }
 
         .wish-text {
             font-size: 1.2em;
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 20px;
             text-align: left;
+        }
+
+        .wish-text p {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .wish-text p::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
         }
 
         .signature {
@@ -98,38 +176,73 @@
             font-style: italic;
             font-size: 1.1em;
             margin-top: 20px;
+            color: #FFECB3;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
         }
 
         /* Phần hình ảnh */
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin: 30px 0;
         }
 
         .photo-item {
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            aspect-ratio: 1/1;
         }
 
         .photo-item:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .photo-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-item:hover::after {
+            opacity: 1;
         }
 
         .photo-item img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        /* Phần đèn lồng - SỬA LẠI THÀNH NÚT BẤM */
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Phần đèn lồng */
         .lanterns {
             display: flex;
             justify-content: space-around;
             margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .lantern-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .lantern-btn {
@@ -137,70 +250,75 @@
             border: none;
             cursor: pointer;
             transition: transform 0.3s ease;
+            padding: 10px;
         }
 
         .lantern-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
         .lantern {
-            width: 80px;
-            height: 100px;
-            border-radius: 40px;
+            width: 90px;
+            height: 110px;
+            border-radius: 45px;
             position: relative;
-            animation: swing 3s ease-in-out infinite;
+            animation: swing 4s ease-in-out infinite;
             box-shadow: 0 0 30px currentColor;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2em;
+            font-size: 2.2em;
             color: white;
+            transition: all 0.3s ease;
         }
 
         .lantern::before {
             content: '';
             position: absolute;
-            top: -15px;
-            width: 30px;
-            height: 20px;
+            top: -18px;
+            width: 35px;
+            height: 22px;
             background: inherit;
-            border-radius: 10px;
+            border-radius: 12px;
         }
 
         .lantern::after {
             content: '';
             position: absolute;
-            bottom: -20px;
-            width: 10px;
-            height: 30px;
+            bottom: -25px;
+            width: 12px;
+            height: 35px;
             background: #ffd700;
-            border-radius: 5px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px #ffd700;
         }
 
         .lantern-caption {
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            color: #FFECB3;
+            font-size: 0.9em;
         }
 
         .lantern-1 {
-            background: #ff6b6b;
+            background: linear-gradient(to bottom, #ff6b6b, #ff8e8e);
             animation-delay: 0s;
         }
 
         .lantern-2 {
-            background: #4ecdc4;
-            animation-delay: 0.5s;
+            background: linear-gradient(to bottom, #4ecdc4, #7de0da);
+            animation-delay: 0.7s;
         }
 
         .lantern-3 {
-            background: #45b7d1;
-            animation-delay: 1s;
+            background: linear-gradient(to bottom, #45b7d1, #6dcae8);
+            animation-delay: 1.4s;
         }
 
         @keyframes swing {
-            0%, 100% { transform: rotate(-5deg) translateY(0px); }
-            50% { transform: rotate(5deg) translateY(-10px); }
+            0%, 100% { transform: rotate(-8deg) translateY(0px); }
+            50% { transform: rotate(8deg) translateY(-15px); }
         }
 
         /* Modal popup cho thiệp */
@@ -211,24 +329,36 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 1000;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.4s ease;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+            position: relative;
+            background: linear-gradient(135deg, #1a2a6c 0%, #3a1c71 50%, #d76d77 100%);
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(255,215,0,0.4);
             max-width: 500px;
-            width: 90%;
+            width: 100%;
+            margin: 0 auto;
             animation: slideUp 0.5s ease;
-            border: 3px solid #ffd700;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #FF6B6B, #4ECDC4, #45B7D1);
         }
 
         .close-btn {
@@ -240,34 +370,76 @@
             color: white;
             background: none;
             border: none;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.2);
+            color: #FFD700;
         }
 
         .modal-title {
             font-size: 2em;
-            margin-bottom: 20px;
-            color: #ffd700;
+            margin-bottom: 25px;
+            color: #FFD700;
             text-align: center;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .modal-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #FFD700, transparent);
         }
 
         .modal-body {
-            font-size: 1.2em;
-            line-height: 1.6;
+            font-size: 1.15em;
+            line-height: 1.7;
             text-align: left;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
         }
 
         .invitation-details {
             background: rgba(255,255,255,0.1);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin: 20px 0;
+            border-left: 4px solid #FFD700;
+        }
+
+        .invitation-details p {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .invitation-details p::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
         }
 
         .love-message {
             font-style: italic;
-            color: #ffd700;
+            color: #FFECB3;
             text-align: center;
-            margin-top: 20px;
-            font-size: 1.3em;
+            margin-top: 25px;
+            font-size: 1.2em;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         @keyframes fadeIn {
@@ -278,11 +450,11 @@
         @keyframes slideUp {
             from { 
                 opacity: 0;
-                transform: translate(-50%, -40%);
+                transform: translateY(50px);
             }
             to { 
                 opacity: 1;
-                transform: translate(-50%, -50%);
+                transform: translateY(0);
             }
         }
 
@@ -292,58 +464,76 @@
         }
 
         .play-btn {
-            background: #ffd700;
+            background: linear-gradient(to right, #FFD700, #FFB300);
             color: #1a2a6c;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 14px 35px;
+            border-radius: 30px;
             font-size: 1.1em;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
         }
 
         .play-btn:hover {
-            background: #ff6b6b;
+            background: linear-gradient(to right, #FF6B6B, #FF8E8E);
             color: white;
-            transform: scale(1.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
         }
 
         /* Sao băng */
         .shooting-star {
             position: fixed;
             top: 0;
-            width: 2px;
-            height: 2px;
+            width: 3px;
+            height: 3px;
             background: white;
-            box-shadow: 0 0 10px white;
+            box-shadow: 0 0 10px 2px white;
             animation: shoot 3s linear infinite;
             opacity: 0;
+            z-index: -1;
         }
 
         @keyframes shoot {
             0% {
-                transform: translateX(0) translateY(0);
+                transform: translateX(0) translateY(0) rotate(45deg);
                 opacity: 1;
             }
             100% {
-                transform: translateX(100vw) translateY(100vh);
+                transform: translateX(100vw) translateY(100vh) rotate(45deg);
                 opacity: 0;
             }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            color: #FFECB3;
+            font-size: 0.9em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
+                padding: 15px;
             }
             
             h1 {
                 font-size: 2em;
             }
             
-            .moon {
-                width: 120px;
-                height: 120px;
+            .moon-container {
+                width: 140px;
+                height: 140px;
             }
             
             .wish-text {
@@ -351,13 +541,70 @@
             }
             
             .lantern {
-                width: 70px;
-                height: 90px;
+                width: 75px;
+                height: 95px;
+                font-size: 1.8em;
+            }
+            
+            .lanterns {
+                gap: 10px;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-title {
+                font-size: 1.7em;
+            }
+            
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.7em;
+            }
+            
+            .moon-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .wish-section {
+                padding: 20px;
+            }
+            
+            .lantern {
+                width: 65px;
+                height: 85px;
+                font-size: 1.6em;
+            }
+            
+            .lantern-caption {
+                font-size: 0.8em;
+            }
+            
+            .modal-content {
+                padding: 25px 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.5em;
+            }
+            
+            .modal-body {
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Nền sao lấp lánh -->
+    <div class="stars" id="starsContainer"></div>
+
     <!-- Sao băng ngẫu nhiên -->
     <div class="shooting-star" style="left: 10%; animation-delay: 1s;"></div>
     <div class="shooting-star" style="left: 30%; animation-delay: 4s;"></div>
@@ -366,9 +613,12 @@
     <div class="container">
         <!-- Phần header với mặt trăng -->
         <div class="header">
-            <div class="moon"></div>
-            <h1>Chúc em Trung Thu vui vẻ!</h1>
-            <p>Gửi đến người anh yêu 💝</p>
+            <div class="moon-container">
+                <div class="moon-glow"></div>
+                <div class="moon"></div>
+            </div>
+            <h1>Chúc Em Trung Thu Vui Vẻ!</h1>
+            <p class="subtitle">Gửi đến người anh yêu 💝</p>
         </div>
 
         <!-- Phần lời chúc -->
@@ -390,13 +640,16 @@
         <!-- Phần hình ảnh -->
         <div class="photo-gallery">
             <div class="photo-item">
-                <img src="1.jpg" alt="Kỷ niệm 1">
+                <img src="1.jpg" alt="Kỷ niệm 1" onerror="this.src='https://via.placeholder.com/300/1a2a6c/FFFFFF?text=Kỷ+niệm+1'">
             </div>
             <div class="photo-item">
-                <img src="2.jpg" alt="Kỷ niệm 2">
+                <img src="2.jpg" alt="Kỷ niệm 2" onerror="this.src='https://via.placeholder.com/300/3a1c71/FFFFFF?text=Kỷ+niệm+2'">
             </div>
             <div class="photo-item">
-                <img src="3.jpg" alt="Kỷ niệm 3">
+                <img src="3.jpg" alt="Kỷ niệm 3" onerror="this.src='https://via.placeholder.com/300/d76d77/FFFFFF?text=Kỷ+niệm+3'">
+            </div>
+            <div class="photo-item">
+                <img src="4.jpg" alt="Kỷ niệm 4" onerror="this.src='https://via.placeholder.com/300/d76d77/FFFFFF?text=Kỷ+niệm+3'">
             </div>
         </div>
 
@@ -407,6 +660,7 @@
                 <button class="lantern-btn" onclick="openModal('wish')">
                     <div class="lantern lantern-1">🌙</div>
                 </button>
+                <div class="lantern-caption">Lời Chúc</div>
             </div>
 
             <!-- Lồng đèn 2: Lời cảm ơn -->
@@ -414,14 +668,20 @@
                 <button class="lantern-btn" onclick="openModal('thank')">
                     <div class="lantern lantern-2">💝</div>
                 </button>
+                <div class="lantern-caption">Cảm Ơn</div>
             </div>
 
             <!-- Lồng đèn 3: Thiệp mời -->
             <div class="lantern-group">
                 <button class="lantern-btn" onclick="openModal('invite')">
-                    <div class="lantern lantern-3">🌺 </div>
+                    <div class="lantern lantern-3">🌺</div>
                 </button>
+                <div class="lantern-caption">Thiệp Mời</div>
             </div>
+        </div>
+        <!-- Footer -->
+        <div class="footer">
+            <p>Gửi tặng người anh yêu 💖</p>
         </div>
     </div>
 
@@ -510,13 +770,34 @@
     </div>
 
     <script>
+        // Tạo nền sao lấp lánh
+        function createStars() {
+            const starsContainer = document.getElementById('starsContainer');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                star.style.opacity = Math.random() * 0.7 + 0.3;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                star.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
 
-
+        // Mở modal
         function openModal(type) {
-            // Đóng tất cả modal trước
             closeModal();
             
-            // Mở modal tương ứng
             switch(type) {
                 case 'wish':
                     document.getElementById('wishModal').style.display = 'block';
@@ -528,13 +809,18 @@
                     document.getElementById('inviteModal').style.display = 'block';
                     break;
             }
+            
+            document.body.style.overflow = 'hidden';
         }
 
+        // Đóng modal
         function closeModal() {
             const modals = document.querySelectorAll('.modal');
             modals.forEach(modal => {
                 modal.style.display = 'none';
             });
+            
+            document.body.style.overflow = 'auto';
         }
 
         // Đóng modal khi click bên ngoài
@@ -543,6 +829,7 @@
             modals.forEach(modal => {
                 if (event.target === modal) {
                     modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
                 }
             });
         }
@@ -552,6 +839,7 @@
             const star = document.createElement('div');
             star.className = 'shooting-star';
             star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 50 + 'vh';
             star.style.animationDelay = Math.random() * 10 + 's';
             document.body.appendChild(star);
             
@@ -559,9 +847,13 @@
                 star.remove();
             }, 3000);
         }
-
-        // Tạo sao băng mỗi 2 giây
-        setInterval(createShootingStar, 2000);
+        // Khởi tạo
+        window.onload = function() {
+            createStars();
+            
+            // Tạo sao băng mỗi 2 giây
+            setInterval(createShootingStar, 2000);
+        };
     </script>
 </body>
 </html>
