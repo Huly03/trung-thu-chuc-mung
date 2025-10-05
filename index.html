@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trung Thu Ngọt Ngào</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Phần header với mặt trăng */
+        .header {
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .moon {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #FFD700, #FFF8DC);
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0 0 50px #FFD700;
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .moon::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .moon::after {
+            content: '';
+            position: absolute;
+            bottom: 40px;
+            right: 35px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Phần lời chúc */
+        .wish-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .wish-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        /* Phần hình ảnh */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .photo-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Phần đèn lồng - SỬA LẠI THÀNH NÚT BẤM */
+        .lanterns {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+        }
+
+        .lantern-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .lantern-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .lantern {
+            width: 80px;
+            height: 100px;
+            border-radius: 40px;
+            position: relative;
+            animation: swing 3s ease-in-out infinite;
+            box-shadow: 0 0 30px currentColor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+        }
+
+        .lantern::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            width: 30px;
+            height: 20px;
+            background: inherit;
+            border-radius: 10px;
+        }
+
+        .lantern::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            width: 10px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 5px;
+        }
+
+        .lantern-caption {
+            margin-top: 10px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .lantern-1 {
+            background: #ff6b6b;
+            animation-delay: 0s;
+        }
+
+        .lantern-2 {
+            background: #4ecdc4;
+            animation-delay: 0.5s;
+        }
+
+        .lantern-3 {
+            background: #45b7d1;
+            animation-delay: 1s;
+        }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-5deg) translateY(0px); }
+            50% { transform: rotate(5deg) translateY(-10px); }
+        }
+
+        /* Modal popup cho thiệp */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 0.5s ease;
+            border: 3px solid #ffd700;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: white;
+            background: none;
+            border: none;
+        }
+
+        .modal-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-align: center;
+        }
+
+        .modal-body {
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .invitation-details {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .love-message {
+            font-style: italic;
+            color: #ffd700;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* Phần nhạc */
+        .music-player {
+            margin: 30px 0;
+        }
+
+        .play-btn {
+            background: #ffd700;
+            color: #1a2a6c;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Sao băng */
+        .shooting-star {
+            position: fixed;
+            top: 0;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 0 0 10px white;
+            animation: shoot 3s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw) translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .moon {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .wish-text {
+                font-size: 1.1em;
+            }
+            
+            .lantern {
+                width: 70px;
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sao băng ngẫu nhiên -->
+    <div class="shooting-star" style="left: 10%; animation-delay: 1s;"></div>
+    <div class="shooting-star" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="shooting-star" style="left: 70%; animation-delay: 7s;"></div>
+
+    <div class="container">
+        <!-- Phần header với mặt trăng -->
+        <div class="header">
+            <div class="moon"></div>
+            <h1>Chúc em Trung Thu vui vẻ!</h1>
+            <p>Gửi đến người anh yêu 💝</p>
+        </div>
+
+        <!-- Phần lời chúc -->
+        <div class="wish-section">
+            <div class="wish-text">
+                <p>Trăng tròn đêm nay sáng quá, nhưng vẫn không thể sánh bằng nụ cười của em.</p>
+                <p>Mùa Trung Thu này, anh chúc em:</p>
+                <p>💖 Luôn rạng rỡ và hạnh phúc</p>
+                <p>💖 Thành công trong mọi việc</p>
+                <p>💖 Mãi mãi xinh đẹp và duyên dáng</p>
+                <p>💖 Có thật nhiều sức khỏe và niềm vui</p>
+                <p>Chúng mình sẽ có thật nhiều mùa Trung Thu cùng nhau nữa! 🥮</p>
+            </div>
+            <div class="signature">
+                <p>Anh yêu em 💕,<br>Lý Minh Huy </p>
+            </div>
+        </div>
+
+        <!-- Phần hình ảnh -->
+        <div class="photo-gallery">
+            <div class="photo-item">
+                <img src="1.jpg" alt="Kỷ niệm 1">
+            </div>
+            <div class="photo-item">
+                <img src="2.jpg" alt="Kỷ niệm 2">
+            </div>
+            <div class="photo-item">
+                <img src="3.jpg" alt="Kỷ niệm 3">
+            </div>
+        </div>
+
+        <!-- Đèn lồng thành nút bấm -->
+        <div class="lanterns">
+            <!-- Lồng đèn 1: Lời chúc Trung Thu -->
+            <div class="lantern-group">
+                <button class="lantern-btn" onclick="openModal('wish')">
+                    <div class="lantern lantern-1">🌙</div>
+                </button>
+            </div>
+
+            <!-- Lồng đèn 2: Lời cảm ơn -->
+            <div class="lantern-group">
+                <button class="lantern-btn" onclick="openModal('thank')">
+                    <div class="lantern lantern-2">💝</div>
+                </button>
+            </div>
+
+            <!-- Lồng đèn 3: Thiệp mời -->
+            <div class="lantern-group">
+                <button class="lantern-btn" onclick="openModal('invite')">
+                    <div class="lantern lantern-3">🌺 </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 1: Lời chúc Trung Thu -->
+    <div id="wishModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">🌕 Lời Chúc Trung Thu</h2>
+            <div class="modal-body">
+                <p>Gửi em yêu,</p>
+                <p>Nhân dịp Trung Thu, anh muốn gửi đến em những lời chúc chân thành nhất:</p>
+                
+                <div class="invitation-details">
+                    <p>✨ Chúc em luôn luôn xinh đẹp</p>
+                    <p>💫 Vạn sự đều như ý của em</p>
+                    <p>🌟 Không còn căng thẳng hay stress</p>
+                    <p>🌺 Chúc em luôn vui vẻ</p>
+                </div>
+
+                <p>Trăng tròn đêm nay thật đẹp, nhưng vẫn không thể sánh bằng nụ cười của em. Anh mong rằng chúng ta sẽ có thật nhiều mùa Trung Thu cùng nhau, cùng ngắm trăng, cùng chia sẻ và cùng yêu thương.</p>
+
+                <div class="love-message">
+                    "Trăng sáng lung linh trên cao<br>
+                    Anh yêu em nhất, trăng nào cao bằng" 💖
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Lời cảm ơn -->
+    <div id="thankModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">💕 Cảm Ơn Em</h2>
+            <div class="modal-body">
+                <p>Em yêu của anh,</p>
+                <p>Anh muốn dành những lời này để cảm ơn em:</p>
+                
+                <div class="invitation-details">
+                    <p>🌸 Cảm ơn em đã đến bên anh</p>
+                    <p>🌷 Cảm ơn em vì những nụ cười</p>
+                    <p>💐 Cảm ơn em vì sự quan tâm</p>
+                    <p>🌹 Cảm ơn em vì tất cả</p>
+                </div>
+
+                <p>Từ ngày có em, cuộc sống của anh như được thắp sáng. Mỗi ngày trôi qua đều trở nên ý nghĩa hơn nhờ có em ở bên. Em chính là món quà tuyệt vời nhất mà cuộc đời ban tặng cho anh.</p>
+
+                <p>Anh hứa sẽ luôn yêu thương, che chở và quan tâm đến em. Sẽ luôn ở bên em dù có bất cứ chuyện gì xảy ra.</p>
+
+                <div class="love-message">
+                    "Cảm ơn em - người khiến trái tim anh hạnh phúc mỗi ngày!" 🥰
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Thiệp mời -->
+    <div id="inviteModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">🎑 Thiệp Mời</h2>
+            <div class="modal-body">
+                <p>Em yêu,</p>
+                <p>Trăng tròn đêm nay đang gọi mời chúng ta cùng nhau tận hưởng một buổi tối Trung Thu thật đặc biệt!</p>
+                
+                <div class="invitation-details">
+                    <p><strong>🎪 Sự kiện:</strong> Buổi tối Trung Thu lãng mạn</p>
+                    <p><strong>📅 Thời gian:</strong> 18:30, tối 6/10 Dương lịch</p>
+                    <p><strong>📍 Địa điểm:</strong> KBUL BBQ - Cần Thơ</p>
+                    <p><strong>🎁 Đặc biệt:</strong> Anh có vài bất ngờ nhỏ dành cho em!</p>
+                </div>
+
+                <p>Hãy đến với anh để cùng nhau:</p>
+                <p>🌹 Thưởng thức một bữa tối lãng mạn</p>
+                <p>🌕 Ngắm trăng và tâm sự</p>
+                <p>✨ Tạo thêm những kỷ niệm đẹp</p>
+
+                <p>Anh rất mong được gặp em dưới ánh trăng rằm!</p>
+
+                <div class="love-message">
+                    Hẹn gặp em, tình yêu của anh!<br>
+                    Lý Minh Huy 💕
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        function openModal(type) {
+            // Đóng tất cả modal trước
+            closeModal();
+            
+            // Mở modal tương ứng
+            switch(type) {
+                case 'wish':
+                    document.getElementById('wishModal').style.display = 'block';
+                    break;
+                case 'thank':
+                    document.getElementById('thankModal').style.display = 'block';
+                    break;
+                case 'invite':
+                    document.getElementById('inviteModal').style.display = 'block';
+                    break;
+            }
+        }
+
+        function closeModal() {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+
+        // Đóng modal khi click bên ngoài
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Tạo sao băng ngẫu nhiên
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.animationDelay = Math.random() * 10 + 's';
+            document.body.appendChild(star);
+            
+            setTimeout(() => {
+                star.remove();
+            }, 3000);
+        }
+
+        // Tạo sao băng mỗi 2 giây
+        setInterval(createShootingStar, 2000);
+    </script>
+</body>
+</html>
